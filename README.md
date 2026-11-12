@@ -18,12 +18,32 @@ node server.js
 > เจอ error `HTTP 401`, `HTTP 404` หรือ `HTTP 502` แปลว่าหน้ายังไม่ได้รันผ่าน `server.js`
 > (เช่น เปิดด้วย Live Server หรือเปิดไฟล์ตรง ๆ) ให้หยุด server ตัวนั้นแล้วรัน `node server.js` แทน
 
+## Deploy บน Vercel
+
+โปรเจกต์มี `api/oil.js` เป็น Serverless Function สำหรับ proxy `/api/oil` แล้ว
+(`server.js` ยังใช้รันในเครื่องได้ตามเดิม)
+
+1. push โค้ดขึ้น GitHub
+2. ที่ Vercel เลือก **Add New Project** → import repo
+3. Framework Preset: **Other** — ไม่ต้องใส่ Build Command หรือ Output Directory
+4. Deploy
+
+หรือใช้ CLI:
+
+```bash
+npm i -g vercel
+vercel --prod
+```
+
+หมายเหตุ: Vercel จะไม่รัน `server.js` (เป็น long-running server) จึงต้องมี `api/oil.js`
+
 ## Tech Stack
 
 | ส่วน | ใช้อะไร |
 |---|---|
 | หน้าเว็บ | HTML, CSS, JavaScript (vanilla) — ไม่มี framework |
-| เซิร์ฟเวอร์ | Node.js ≥18 (`http`, `fs`) — zero dependency, static server + proxy `/api/oil` แคช 60 วินาที |
+| เซิร์ฟเวอร์ | Node.js ≥18 (`http`, `fs`) — zero dependency, static server + proxy `/api/oil` แคช 60 วินาที (รันในเครื่อง) |
+| Deploy | Vercel Serverless Function `api/oil.js` — proxy `/api/oil` พร้อม cache `s-maxage=60` |
 | แหล่งข้อมูล | [Bangchak Oil Price API](https://oil-price.bangchak.co.th/ApiOilPrice2/th) |
 | ฟอนต์ | IBM Plex Sans Thai (Google Fonts) |
 | เก็บค่าฝั่งผู้ใช้ | `localStorage` (ธีม + ข้อมูลล่าสุด) |
@@ -50,6 +70,8 @@ oil-api/
 ├── app.js       # fetch + แปลงข้อมูล + render + interaction
 ├── logo.svg     # โลโก้/ไอคอนแท็บ (fuel pump)
 ├── server.js    # static server + proxy /api/oil (zero dependency)
+├── api/
+│   └── oil.js   # Vercel Serverless Function สำหรับ /api/oil
 ├── start.command # เปิดเซิร์ฟเวอร์ + เบราว์เซอร์บน macOS
 ├── package.json # npm start → node server.js
 └── .gitignore
