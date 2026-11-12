@@ -18,19 +18,16 @@ node server.js
 > เจอ error `HTTP 401`, `HTTP 404` หรือ `HTTP 502` แปลว่าหน้ายังไม่ได้รันผ่าน `server.js`
 > (เช่น เปิดด้วย Live Server หรือเปิดไฟล์ตรง ๆ) ให้หยุด server ตัวนั้นแล้วรัน `node server.js` แทน
 
-## ทำไมต้องมี server.js
+## Tech Stack
 
-API ต้นทาง **ไม่ส่ง header CORS** ทำให้เบราว์เซอร์บล็อกเมื่อเรียกข้ามโดเมน
-`server.js` จึงทำหน้าที่เป็น:
-
-1. static server เสิร์ฟ `index.html`, `styles.css`, `app.js`
-2. proxy ที่ `GET /api/oil` ไปดึงข้อมูลจาก API ต้นทางให้ (แคชฝั่งเซิร์ฟเวอร์ 60 วินาที)
-
-ถ้าเปิดไฟล์ด้วย `file://` ตรง ๆ หน้าเว็บจะลอง fallback ไปยัง public CORS proxy
-(`allorigins` / `codetabs`) ซึ่ง **ไม่เสถียรและมักถูก API ต้นทางบล็อก** — แนะนำให้รันผ่าน `server.js` เท่านั้น
-
-หมายเหตุ: `corsproxy.io` ถูกนำออกจากการ fallback แล้ว เพราะปัจจุบันต้องใช้ API key
-และตอบ `401 Unauthorized` (สาเหตุของ error `HTTP 401` ที่เคยเห็น)
+| ส่วน | ใช้อะไร |
+|---|---|
+| หน้าเว็บ | HTML, CSS, JavaScript (vanilla) — ไม่มี framework |
+| เซิร์ฟเวอร์ | Node.js ≥18 (`http`, `fs`) — zero dependency, static server + proxy `/api/oil` แคช 60 วินาที |
+| แหล่งข้อมูล | [Bangchak Oil Price API](https://oil-price.bangchak.co.th/ApiOilPrice2/th) |
+| ฟอนต์ | IBM Plex Sans Thai (Google Fonts) |
+| เก็บค่าฝั่งผู้ใช้ | `localStorage` (ธีม + ข้อมูลล่าสุด) |
+| Build | ไม่มี — เปิดไฟล์ static ได้ทันที |
 
 ## ฟีเจอร์
 
@@ -53,7 +50,9 @@ oil-api/
 ├── app.js       # fetch + แปลงข้อมูล + render + interaction
 ├── logo.svg     # โลโก้/ไอคอนแท็บ (fuel pump)
 ├── server.js    # static server + proxy /api/oil (zero dependency)
-└── package.json
+├── start.command # เปิดเซิร์ฟเวอร์ + เบราว์เซอร์บน macOS
+├── package.json # npm start → node server.js
+└── .gitignore
 ```
 
 ## หมายเหตุ
