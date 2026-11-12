@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ราคาน้ำมันบางจาก</title>
+  <meta name="description" content="ราคาน้ำมันบางจากวันนี้ พรุ่งนี้ และเมื่อวาน ราคาขายปลีกกรุงเทพฯ">
+  <meta name="theme-color" content="#ffffff">
+  <script>
+    (function () {
+      var theme = 'light';
+      try {
+        theme = localStorage.getItem('oil:theme') ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (e) {}
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://webbcpopaprd001.azurewebsites.net">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="head">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 21V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v15"/>
+            <path d="M4 21h10"/>
+            <path d="M7 8h4"/>
+            <path d="M13 10h2a1 1 0 0 1 1 1v5a2 2 0 0 0 4 0V8l-2-2"/>
+          </svg>
+        </span>
+        <div>
+          <h1 class="shine">ราคาน้ำมันบางจาก</h1>
+          <p class="sub">ราคาขายปลีกเขตกรุงเทพฯ · บาทต่อลิตร</p>
+        </div>
+      </div>
+      <div class="head-meta">
+        <p>อัปเดต <span id="updated">—</span></p>
+        <div class="head-actions">
+          <button id="refresh" class="refresh" type="button">รีเฟรช</button>
+          <button id="theme" class="theme" type="button" aria-label="เปลี่ยนเป็นโหมดมืด">โหมดมืด</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <input id="search" type="search" placeholder="ค้นหาชนิดน้ำมัน" aria-label="ค้นหาชนิดน้ำมัน" autocomplete="off">
+      <nav class="tabs" id="tabs" aria-label="กรองหมวดน้ำมัน">
+        <button class="tab is-active" data-filter="all" aria-pressed="true" type="button">ทั้งหมด</button>
+        <button class="tab" data-filter="diesel" aria-pressed="false" type="button">ดีเซล</button>
+        <button class="tab" data-filter="gasohol" aria-pressed="false" type="button">แก๊สโซฮอล์</button>
+        <button class="tab" data-filter="premium" aria-pressed="false" type="button">พรีเมียม</button>
+      </nav>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite">กำลังโหลด…</p>
+
+    <table class="prices">
+      <thead>
+        <tr>
+          <th scope="col">ชนิดน้ำมัน</th>
+          <th scope="col" class="num">เมื่อวาน</th>
+          <th scope="col" class="num">วันนี้</th>
+          <th scope="col" class="num">พรุ่งนี้</th>
+          <th scope="col" class="num">เปลี่ยน</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <p class="note" id="note" hidden></p>
+
+    <footer>
+      <p>
+        ที่มา <a href="https://oil-price.bangchak.co.th/ApiOilPrice2/th" target="_blank" rel="noopener noreferrer">Bangchak Oil Price API</a>
+      </p>
+      <p>ตัวอย่างเพื่อการศึกษา · ไม่เกี่ยวข้องกับบริษัทบางจากฯ</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

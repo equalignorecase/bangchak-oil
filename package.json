@@ -1,0 +1,13 @@
+{
+  "name": "oil-price-bangchak",
+  "version": "1.0.0",
+  "private": true,
+  "description": "หน้าเว็บแสดงราคาน้ำมันบางจาก ดึงข้อมูลจาก Bangchak Oil Price API",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
